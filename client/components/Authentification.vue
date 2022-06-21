@@ -116,7 +116,7 @@ module.exports = {
   width: 2000px;
   height: 2000px;
   border-radius: 50%;
-  background: linear-gradient(-45deg, #4481eb, #04befe);
+  background: linear-gradient(-45deg, #eb4444, #fe0404);
   top: -10%;
   right: 48%;
   transform: translateY(-50%);
@@ -191,7 +191,7 @@ form{
   outline: none;
   border-radius: 50px;
   cursor: pointer;
-  background-color: cornflowerblue;
+  background-color:rgb(211, 29, 59);
   color : white;
   text-transform: 600;
   margin: 10px 0;
@@ -199,7 +199,7 @@ form{
 }
 
 .btn:hover{
-  background-color: dodgerblue;
+  background-color:rgb(255, 102, 128);
 }
 .signin-signup{
   position: absolute;
