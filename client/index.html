@@ -17,15 +17,6 @@
     </head>
     <body>
         <div id="app">
-          <header>
-              <img class="logoKumo" src="images/PNG/KumoLogo.png" alt="Logo de la page">
-              <nav>
-                  <ul class="navlink">
-                    <li><router-link to='/Accueil'>Accueil</router-link></li>
-                  </ul>
-              </nav>
-              <router-link to="/Authentification"><button>S'authentifier</button></router-link>
-          </header>
           <main>
               <router-view
               :username="username"
