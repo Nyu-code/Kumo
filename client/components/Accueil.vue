@@ -2,7 +2,7 @@
   <div>
   <div class="content">
     <div class="text">
-      <h2>Venez découvrir plein de livres dans la EfreiBiblio !</h2><br>
+      <h2>Partagez vos fichiers avec sécurité grâce à Kumo !</h2><br>
       <div class="logoimg">
       <img src="images/JPG/Livre.png">
       </div>

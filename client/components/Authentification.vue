@@ -43,7 +43,7 @@
         <div class="panel left-panel">
           <div class="content" v-if="!isConnected">
             <h3>Nouveaux utilisateur ?</h3>
-            <p>Venez découvrir plein de livres dans notre EfreiBiblio !</p>
+            <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
             <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
           </div>
           <img src="images/SVG/register.svg" class="image" alt="">
@@ -51,7 +51,7 @@
         <div class="panel right-panel" v-if="!isConnected">
           <div class="content">
             <h3>Déjà inscrit ?</h3>
-            <p>N'hésitez pas à donner votre avis sur les livres que vous empruntez !</p>
+            <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
             <button class="btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
           </div>
           <img src="images/SVG/signin.svg" class="image" alt="">
