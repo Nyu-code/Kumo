@@ -8,6 +8,7 @@
           <button class="btn solid" v-if="isConnected" @click="decoUser(user)">Déconnexion</button>
 
           <form class="sign-in-form" @submit.prevent="loginUser" v-if="!isConnected">
+            <img src="images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">Se connecter</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -21,6 +22,7 @@
           </form>
 
           <form @submit.prevent="addUser" class="sign-up-form" v-if="!isConnected">
+            <img src="images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">S'inscrire</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -313,5 +315,9 @@ form.sign-up-form{
 .container.sign-up-mode form.sign-up-form{
   z-index: 2;
   opacity: 1;
+}
+
+.image2 {
+  margin-bottom: 5rem;
 }
 </style>

@@ -4,16 +4,13 @@
     <div class="text">
       <h2>Partagez vos fichiers avec sécurité grâce à Kumo !</h2><br>
       <div class="logoimg">
-      <img src="images/JPG/Livre.png">
+      <img src="images/PNG/KumoLogo2.png">
       </div>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc urna est, fermentum eget congue non, pellentesque facilisis tortor. 
         Curabitur a tortor leo. Aenean eget rutrum ex. Nam sed scelerisque dolor. Suspendisse sodales elementum scelerisque. 
         Ut at sollicitudin est, vitae convallis eros. Nulla consequat tempus felis, in egestas nibh tincidunt rutrum. 
         Sed iaculis magna erat, eget rhoncus nibh efficitur in. Aenean efficitur fermentum purus, a iaculis mauris dictum eu.</p>
     </div><br>
-    <div class="decouvrir">
-      <button class="btn-catalogue"><a href="#/Catalogue">Découvrir</a></button>
-    </div>
   </div>
   </div>
 </template>
