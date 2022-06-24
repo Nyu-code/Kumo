@@ -8,7 +8,7 @@
           <button class="btn solid" v-if="isConnected" @click="decoUser(user)">Déconnexion</button>
 
           <form class="sign-in-form" @submit.prevent="loginUser" v-if="!isConnected">
-            <img src="images/PNG/KumoLogo2.png" class="image2" alt="">
+            <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">Se connecter</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -22,7 +22,7 @@
           </form>
 
           <form @submit.prevent="addUser" class="sign-up-form" v-if="!isConnected">
-            <img src="images/PNG/KumoLogo2.png" class="image2" alt="">
+            <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">S'inscrire</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
@@ -48,7 +48,7 @@
             <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
             <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
           </div>
-          <img src="images/SVG/register.svg" class="image" alt="">
+          <img src="../images/SVG/register.svg" class="image" alt="">
         </div>
         <div class="panel right-panel" v-if="!isConnected">
           <div class="content">
@@ -56,14 +56,16 @@
             <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
             <button class="btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
           </div>
-          <img src="images/SVG/signin.svg" class="image" alt="">
+          <img src="../images/SVG/signin.svg" class="image" alt="">
         </div>
       </div>
     </div>
 </div>
 </template>
 <script>
-module.exports = {
+import API from '../api'
+
+export default {
   data () {
     return {
       user: {
@@ -83,14 +85,41 @@ module.exports = {
     isConnected: { type: Boolean, default: false }
   },
   methods: {
-    loginUser () {
-      this.$emit('login-user', this.user)       
+    loginUser (user) {
+      API.post('/login').then((res) => {
+        if(res.data) {
+          this.isConnected = true
+          API.get('/getUser').then((res2) => {
+            this.username = res2.data[0].username
+            this.$router.push({ path: '/' })
+            alert("Connexion réussite")
+          })
+        } else {
+          alert("Utilisateur n'existe pas ou mauvais mot de passe")
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
     },
-    decoUser(){
-      this.$emit('deco-user', this.user)
+    decoUser(user) {
+      API.post('/login', user).then((res) => {
+        this.isConnected = false
+        this.$router.push({ path: '/' })
+        alert("Déconnexion réussite")
+      }).catch((err) => {
+        console.log(err);
+      })
     },
     addUser() {
-      this.$emit('add-user', this.newUser)
+      API.post('/register', this.newUser).then((res) => {
+        if (res.data) {
+          alert( "Votre compte a été créé! Connectez-vous !")
+        } else {
+          alert("L'email est déjà utilisé")
+        }
+      }).catch((err) => {
+        console.log(err);
+      })
     },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
