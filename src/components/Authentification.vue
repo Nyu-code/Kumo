@@ -60,6 +60,7 @@
         </div>
       </div>
     </div>
+
 </div>
 </template>
 <script>
@@ -70,6 +71,7 @@ export default {
     return {
       user: {
         email: '',
+        username : '',
         password: ''
       },
       newUser: {
@@ -78,18 +80,16 @@ export default {
         password:''
       },
       isSignUpMode : false,
+      isConnected: { type: Boolean, default: false }
     }
   },
-  props: {
-    username : '',
-    isConnected: { type: Boolean, default: false }
-  },
   methods: {
-    loginUser (user) {
-      API.post('/login').then((res) => {
+    loginUser () {
+      API.post('/login', this.user).then((res) => {
         if(res.data) {
           this.isConnected = true
           API.get('/getUser').then((res2) => {
+            console.log(res2);
             this.username = res2.data[0].username
             this.$router.push({ path: '/' })
             alert("Connexion réussite")
