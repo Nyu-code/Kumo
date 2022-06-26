@@ -60,6 +60,7 @@
         </div>
       </div>
     </div>
+
 </div>
 </template>
 <script>
@@ -71,6 +72,7 @@ export default {
       user: {
         username: '',
         email: '',
+        username : '',
         password: ''
       },
       newUser: {
