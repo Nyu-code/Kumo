@@ -4,7 +4,7 @@
       <div class="forms-container">
         <div class="signin-signup">
 
-          <h2 class="title" v-if="isConnected">Bienvenue {{username}} !</h2>
+          <h2 class="title" v-if="isConnected">Bienvenue {{user.username}} !</h2>
           <button class="btn solid" v-if="isConnected" @click="decoUser(user)">Déconnexion</button>
 
           <form class="sign-in-form" @submit.prevent="loginUser" v-if="!isConnected">
@@ -69,6 +69,7 @@ export default {
   data () {
     return {
       user: {
+        username: '',
         email: '',
         password: ''
       },
@@ -78,19 +79,17 @@ export default {
         password:''
       },
       isSignUpMode : false,
+      isConnected: false
     }
   },
-  props: {
-    username : '',
-    isConnected: { type: Boolean, default: false }
-  },
   methods: {
-    loginUser (user) {
-      API.post('/login').then((res) => {
+    loginUser () {
+      API.post('/login', this.user).then((res) => {
         if(res.data) {
           this.isConnected = true
-          API.get('/getUser').then((res2) => {
-            this.username = res2.data[0].username
+          const userId = {userId : res.data.userId}
+          API.post('/getUser', userId).then((res2) => {
+            this.user.username = res2.data[0].username
             this.$router.push({ path: '/' })
             alert("Connexion réussite")
           })
