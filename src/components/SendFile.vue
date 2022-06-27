@@ -11,7 +11,7 @@
         <button class="btn solid" @click="decoUser(user)">Déconnexion</button>
     </header>
         <form @submit-prevent="upload" class="container">
-            <h2> Déposer vos fichiers en glissant dans la zone ou appuyez sur le boutton</h2>
+            <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
             <button class="upload"> Upload </button>
         </form>
     </div>  
