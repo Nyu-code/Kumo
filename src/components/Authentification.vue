@@ -87,7 +87,7 @@ export default {
       API.post('/login', this.user).then((res) => {
         if(res.data) {
           this.isConnected = true
-          const userId = {userId : res.data.userId}
+          const userId = {userId : res.data.id}
           API.post('/getUser', userId).then((res2) => {
             this.user.username = res2.data[0].username
             this.$router.push({ path: '/' })
@@ -175,6 +175,7 @@ form{
   font-size: 2.2rem;
   color:#333;
   margin-bottom: 10px;
+  text-transform: capitalize;
 }
 
 .input-field{
