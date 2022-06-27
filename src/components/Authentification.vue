@@ -85,8 +85,8 @@ export default {
     isConnected: { type: Boolean, default: false }
   },
   methods: {
-    loginUser (user) {
-      API.post('/login').then((res) => {
+    loginUser() {
+      API.post('/login', this.user).then((res) => {
         if(res.data) {
           this.isConnected = true
           API.get('/getUser').then((res2) => {
