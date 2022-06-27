@@ -15,23 +15,26 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 30px 10%;
+    border-bottom: 3px solid rgb(255, 82, 59);
 }
 
 .logoKumo {
     width: 10%;
     cursor: pointer;
 }
-
+nav {
+    width: 80%;
+}
 .navlink {
     list-style: none;
 }
 .navlink li {
     display: inline-block;
-    padding: 0px 30px;
+    padding: 0px 50px;
 }
 
 .navlink li a {
-    font-size: 25px;
+    font-size: 40px;
     transition: all 0.3s ease 0s;
 }
 

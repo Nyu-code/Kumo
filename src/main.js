@@ -8,16 +8,10 @@ const API = null;
 const app = createApp(App, {
   data() {
     return {
-      username : "",
-      livres: [],
-      panier: [],
-      isAdmin: false,
-      isConnected: false,
-      username: ''
+      username: '',
+      isConnected: false
     }
   },
-})
-
-app.use(router)
-
-app.mount('#app')
+});
+app.use(router);
+app.mount('#app');

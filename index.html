@@ -11,7 +11,13 @@
     <title>Kumo</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <main>
+        <router-view
+        @uploader="upload"
+        ></router-view>
+      </main>
+    </div>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

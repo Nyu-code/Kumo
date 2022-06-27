@@ -1,67 +1,78 @@
 <template>
-<div>
-    <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']">
-      <div class="forms-container">
-        <div class="signin-signup">
+  <div>
+      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']" v-if="!user.isConnected">
+        <div class="forms-container">
+          <div class="signin-signup">
 
-          <h2 class="title" v-if="user.isConnected">Bienvenue {{user.username}} !</h2>
-          <button class="btn solid" v-if="user.isConnected" @click="decoUser(user)">Déconnexion</button>
+            <form class="sign-in-form" @submit.prevent="loginUser">
+              <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
+              <h2 class="title">Se connecter</h2>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" v-model="user.email" placeholder="Enter Email" name="email" required>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" v-model="user.password" placeholder="Enter Password" name="psw" required>
+              </div>
+              <button type="submit" value="Login" class="btn solid">Connecter</button>
+            </form>
 
-          <form class="sign-in-form" @submit.prevent="loginUser" v-if="!user.isConnected">
-            <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
-            <h2 class="title">Se connecter</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" v-model="user.email" placeholder="Enter Email" name="email" required>
-            </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" v-model="user.password" placeholder="Enter Password" name="psw" required>
-            </div>
-            <button type="submit" value="Login" class="btn solid">Connecter</button>
-          </form>
+            <form @submit.prevent="addUser" class="sign-up-form">
+              <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
+              <h2 class="title">S'inscrire</h2>
+              <div class="input-field">
+                <i class="fas fa-user"></i>
+                <input type="text" v-model="newUser.username" placeholder="Nom d'utilisateur" required>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-envelope"></i>
+                <input type="email" v-model="newUser.email" placeholder="Adresse mail" required>
+              </div>
+              <div class="input-field">
+                <i class="fas fa-lock"></i>
+                <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
+              </div>
+                <button type="submit" value="Sign up" class="btn solid"> S'inscrire</button>
+            </form>
+          </div>
+        </div>
 
-          <form @submit.prevent="addUser" class="sign-up-form" v-if="!user.isConnected">
-            <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
-            <h2 class="title">S'inscrire</h2>
-            <div class="input-field">
-              <i class="fas fa-user"></i>
-              <input type="text" v-model="newUser.username" placeholder="Nom d'utilisateur" required>
+        <div class="panels-container">
+          <div class="panel left-panel">
+            <div class="content">
+              <h3>Nouveaux utilisateur ?</h3>
+              <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
+              <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
             </div>
-            <div class="input-field">
-              <i class="fas fa-envelope"></i>
-              <input type="email" v-model="newUser.email" placeholder="Adresse mail" required>
+            <img src="../images/SVG/register.svg" class="image" alt="">
+          </div>
+          <div class="panel right-panel">
+            <div class="content">
+              <h3>Déjà inscrit ?</h3>
+              <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
+              <button class="btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
             </div>
-            <div class="input-field">
-              <i class="fas fa-lock"></i>
-              <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
-            </div>
-              <button type="submit" value="Sign up" class="btn solid"> S'inscrire</button>
-          </form>
+            <img src="../images/SVG/signin.svg" class="image" alt="">
+          </div>
         </div>
       </div>
-
-      <div class="panels-container">
-        <div class="panel left-panel">
-          <div class="content" v-if="!user.isConnected">
-            <h3>Nouveaux utilisateur ?</h3>
-            <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
-            <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
+      <div v-if="user.isConnected">
+          <header>
+              <img class="logoKumo" src="../images/PNG/KumoLogo.png" alt="Logo de la page">
+              <nav>
+                  <ul class="navlink">
+                    <li><router-link to='/send'>Envoyer</router-link></li>
+                    <li><router-link to='/receive'>Réception</router-link></li>
+                  </ul>
+              </nav>
+              <button class="btn solid" @click="decoUser(user)">Déconnexion</button>
+          </header>
+          <div class="welcome">
+          <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
           </div>
-          <img src="../images/SVG/register.svg" class="image" alt="">
-        </div>
-        <div class="panel right-panel" v-if="!user.isConnected">
-          <div class="content">
-            <h3>Déjà inscrit ?</h3>
-            <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
-            <button class="btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
-          </div>
-          <img src="../images/SVG/signin.svg" class="image" alt="">
-        </div>
       </div>
-    </div>
-
-</div>
+  </div>
 </template>
 <script>
 import API from '../api'
@@ -350,5 +361,20 @@ form.sign-up-form{
 
 .image2 {
   margin-bottom: 5rem;
+}
+
+.welcome{
+  margin-top: 3rem;
+  display: flex;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 80px;
+}
+#username{
+  padding-left: 30px;
+  font-size: 80px;
+  color: rgb(155, 4, 29);
 }
 </style>
