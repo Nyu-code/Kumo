@@ -4,10 +4,10 @@
       <div class="forms-container">
         <div class="signin-signup">
 
-          <h2 class="title" v-if="isConnected">Bienvenue {{user.username}} !</h2>
-          <button class="btn solid" v-if="isConnected" @click="decoUser(user)">Déconnexion</button>
+          <h2 class="title" v-if="user.isConnected">Bienvenue {{user.username}} !</h2>
+          <button class="btn solid" v-if="user.isConnected" @click="decoUser(user)">Déconnexion</button>
 
-          <form class="sign-in-form" @submit.prevent="loginUser" v-if="!isConnected">
+          <form class="sign-in-form" @submit.prevent="loginUser" v-if="!user.isConnected">
             <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">Se connecter</h2>
             <div class="input-field">
@@ -21,7 +21,7 @@
             <button type="submit" value="Login" class="btn solid">Connecter</button>
           </form>
 
-          <form @submit.prevent="addUser" class="sign-up-form" v-if="!isConnected">
+          <form @submit.prevent="addUser" class="sign-up-form" v-if="!user.isConnected">
             <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
             <h2 class="title">S'inscrire</h2>
             <div class="input-field">
@@ -43,14 +43,14 @@
 
       <div class="panels-container">
         <div class="panel left-panel">
-          <div class="content" v-if="!isConnected">
+          <div class="content" v-if="!user.isConnected">
             <h3>Nouveaux utilisateur ?</h3>
             <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
             <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
           </div>
           <img src="../images/SVG/register.svg" class="image" alt="">
         </div>
-        <div class="panel right-panel" v-if="!isConnected">
+        <div class="panel right-panel" v-if="!user.isConnected">
           <div class="content">
             <h3>Déjà inscrit ?</h3>
             <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
@@ -73,22 +73,22 @@ export default {
         username: '',
         email: '',
         username : '',
-        password: ''
+        password: '',
+        isConnected : false
       },
       newUser: {
         username:'',
         email:'',
         password:''
       },
-      isSignUpMode : false,
-      isConnected: false
+      isSignUpMode : false
     }
   },
   methods: {
     loginUser () {
       API.post('/login', this.user).then((res) => {
         if(res.data) {
-          this.isConnected = true
+          this.user.isConnected = true
           const userId = {userId : res.data.userId}
           API.post('/getUser', userId).then((res2) => {
             this.user.username = res2.data[0].username
@@ -104,7 +104,7 @@ export default {
     },
     decoUser(user) {
       API.post('/login', user).then((res) => {
-        this.isConnected = false
+        this.user.isConnected = false
         this.$router.push({ path: '/' })
         alert("Déconnexion réussite")
       }).catch((err) => {
