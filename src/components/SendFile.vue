@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
     margin-top: 3rem;
     display: flex;
