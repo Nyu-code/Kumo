@@ -88,7 +88,7 @@ export default {
     loginUser () {
       API.post('/login', this.user).then((res) => {
         if(res.data) {
-          this.isConnected = true
+          this.user.isConnected = true
           const userId = {userId : res.data.id}
           API.post('/getUser', userId).then((res2) => {
             this.user.username = res2.data[0].username
