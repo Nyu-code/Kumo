@@ -14,11 +14,15 @@
             <form @submit-prevent="upload" class="container">
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
                 <button class="upload"> Upload </button>
-                <div class="selectizesearch">
-                    <div>
-                        <label class="">Choisir utilisateur(s)</label>
-                        <Multiselect v-model="this.selected" :options="this.listUsers" :multiple="true" :close-on-select="false" :clear-on-select="false" :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true"/>
-                    </div>
+                <div class="multisearch">
+                    <Multiselect    v-model="this.selected"
+                                    mode="multiple"
+                                    placeholder="Choisissez un ou plusieurs destinataire"
+                                    :options="this.listUsers"
+                                    :searchable="true"
+                                    :close-on-select="false"
+                                    label="username"
+                                    /> 
                 </div>
                 <button type="submit" class="btn submit" value="envoyer">Submit</button>
             </form>
@@ -38,7 +42,7 @@ export default {
         return{
             nb: 0,
             listUsers : [],
-            selected : null,
+            selected : []
         }
     },
     methods:{
@@ -48,22 +52,37 @@ export default {
         getUsers(){
             API.get('/login').then((res)=>{
             if(res.data){
-                this.listUsers = res.data
+                for (var i = 0 ; i< res.data.length; i++){
+                    this.listUsers.push({"value":res.data[i].user_id, "username":res.data[i].username,"email":res.data[i].email,"public_key":res.data[i].public_key})
+                }
             }
-        })}
+        })},
     },
     beforeMount(){
         this.getUsers()
     }
 }
 </script>
+<style src="@vueform/multiselect/themes/default.css"></style>
 
 <style scoped>
-.form {
-    flex-direction: row;
+form{
+    display: flex;
+    align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 .container {
+    margin-top: 3rem;
+}
+.multisearch{
+    margin-top: 3rem;
+    width: 80%;
+}
+.upload {
+    margin-top: 3rem;
+}
+.btn.submit{
     margin-top: 3rem;
 }
 </style>
