@@ -8,12 +8,12 @@
                 <li><router-link to='/receive'>Réception</router-link></li>
                 </ul>
             </nav>
-            <button class="btn solid" @click="decoUser(user)">Déconnexion</button>
+            <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
         </header>
         <div class="form">
             <form @submit-prevent="upload" class="container">
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
-                <button class="upload"> Upload </button>
+                <button class="button upload"> Upload </button>
                 <div class="multisearch">
                       <multiselect 
                             v-model="value"
@@ -26,9 +26,8 @@
                             :taggable="true"
                             @tag="addTag"
                         />
-
                 </div>
-                <button type="submit" class="btn submit" value="envoyer">Submit</button>
+                <button type="submit" class="button btn submit" value="envoyer">Submit</button>
             </form>
         </div>
     </div>
