@@ -19,5 +19,3 @@ new Vue({
     }
   }
 }).$mount("#app")
-
-Vue.use(VueCompositionAPI)
