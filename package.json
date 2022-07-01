@@ -11,6 +11,7 @@
     "@vueform/multiselect": "^2.4.2",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "emailjs-com": "^3.2.0",
     "multiselect": "^0.9.12",
     "selectize": "^0.12.6",
     "vue": "^2.6.14",

@@ -33,7 +33,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
               </div>
-                <button type="submit" value="Sign up" class="btn solid"> S'inscrire</button>
+                <button type="submit" value="Sign up" class="btn solid" @click="sendEmail()"> S'inscrire</button>
             </form>
           </div>
         </div>
@@ -129,6 +129,19 @@ export default {
       }).catch((err) => {
         console.log(err);
       })
+    },
+    sendEmail(newUser) {
+      emailjs.sendForm('service_38vvemc', 'template_r5fqchh',this.newUser.email)
+      from_name: "xiongnicolas.nx@gmail.com"
+        .then((result) => {
+          if (this.newUser.email.endsWith("@efrei.net")){
+            console.log('SUCCESS!', result.text);
+          } else {
+            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
+          }
+        }, (error) => {
+            console.log('FAILED...', error.text);
+        });
     },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
