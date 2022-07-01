@@ -17,14 +17,12 @@
                 <div class="multisearch">
                       <multiselect 
                             v-model="value"
-                            tag-placeholder="Add this as new tag"
-                            placeholder="Search or add a tag"
+                            placeholder="Sélectionner un ou plusieurs utilisateur"
                             label="name"
-                            track-by="value"
+                            track-by="name"
                             :options="options"
                             :multiple="true"
                             :taggable="true"
-                            @tag="addTag"
                         />
                 </div>
                 <button type="submit" class="button btn submit" value="envoyer">Submit</button>
@@ -48,14 +46,6 @@ export default {
         }
     },
     methods:{
-        addTag(newTag) {
-            const tag = {
-                name: newTag,
-                code: newTag
-            }
-            this.options.push(tag)
-            this.value.push(tag)
-        },
         upload() {
             console.log('bite')
         },
@@ -65,13 +55,14 @@ export default {
             form_data.append('users', JSON.stringify({}))
         },
         getUsers(){
-            API.get('/getUsers').then((res)=>{
+            API.get('/login').then((res)=>{
             if(res.data){
+                console.log("hello")
                 for (var i = 0 ; i< res.data.length; i++){
                     this.options.push({
-                        code: res.data[i].user_id,
-                        name: res.data[i].username,
-                        email: res.data[i].email
+                        "value": res.data[i].user_id,
+                        "name": res.data[i].username,
+                       "email": res.data[i].email
                     })
                 }
             }
@@ -103,5 +94,6 @@ form{
 }
 .btn.submit{
     margin-top: 3rem;
+    color: white;
 }
 </style>
