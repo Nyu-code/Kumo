@@ -16,7 +16,7 @@
                 <button class="upload"> Upload </button>
                 <div class="multisearch">
                     <Multiselect    v-model="this.selected"
-                                    mode="multiple"
+                                    mode="tags"
                                     placeholder="Choisissez un ou plusieurs destinataire"
                                     :options="this.listUsers"
                                     :searchable="true"
