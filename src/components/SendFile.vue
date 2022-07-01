@@ -15,14 +15,18 @@
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
                 <button class="upload"> Upload </button>
                 <div class="multisearch">
-                    <Multiselect    v-model="this.selected"
-                                    mode="tags"
-                                    placeholder="Choisissez un ou plusieurs destinataire"
-                                    :options="this.listUsers"
-                                    :searchable="true"
-                                    :close-on-select="false"
-                                    label="username"
-                                    /> 
+                      <multiselect 
+                            v-model="value"
+                            tag-placeholder="Add this as new tag"
+                            placeholder="Search or add a tag"
+                            label="name"
+                            track-by="value"
+                            :options="options"
+                            :multiple="true"
+                            :taggable="true"
+                            @tag="addTag"
+                        />
+
                 </div>
                 <button type="submit" class="btn submit" value="envoyer">Submit</button>
             </form>
@@ -32,7 +36,7 @@
 
 <script>
 import API from '../api'
-import Multiselect from '@vueform/multiselect'
+import Multiselect from 'vue-multiselect'
 
 export default {
     components: {
@@ -40,20 +44,36 @@ export default {
     },
     data(){
         return{
-            nb: 0,
-            listUsers : [],
-            selected : []
+            value: [],
+            options: []
         }
     },
     methods:{
-        upload(){
-            nb += 1
+        addTag(newTag) {
+            const tag = {
+                name: newTag,
+                code: newTag
+            }
+            this.options.push(tag)
+            this.value.push(tag)
+        },
+        upload() {
+            console.log('bite')
+        },
+        submit_form() {
+            const form_data = new FormData()
+            form_data.append('file', null)
+            form_data.append('users', JSON.stringify({}))
         },
         getUsers(){
-            API.get('/login').then((res)=>{
+            API.get('/getUsers').then((res)=>{
             if(res.data){
                 for (var i = 0 ; i< res.data.length; i++){
-                    this.listUsers.push({"value":res.data[i].user_id, "username":res.data[i].username,"email":res.data[i].email,"public_key":res.data[i].public_key})
+                    this.options.push({
+                        code: res.data[i].user_id,
+                        name: res.data[i].username,
+                        email: res.data[i].email
+                    })
                 }
             }
         })},
@@ -63,7 +83,7 @@ export default {
     }
 }
 </script>
-<style src="@vueform/multiselect/themes/default.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
 form{

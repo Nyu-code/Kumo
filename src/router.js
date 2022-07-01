@@ -1,16 +1,22 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
 import Authentification from './components/Authentification.vue'
 import SendFile from './components/SendFile.vue'
 import ReceiveFile from './components/ReceiveFile.vue'
 
-const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    { path: '/', component: Authentification },
-    { path: '/receive', component: ReceiveFile },
-    { path: '/send', component: SendFile }
-  ]
+Vue.use(VueRouter)
+
+const routes = [
+  { path: '/', component: Authentification },
+  { path: '/receive', component: ReceiveFile },
+  { path: '/send', component: SendFile }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
 })
 
 export default router

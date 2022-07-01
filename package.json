@@ -1,23 +1,27 @@
 {
-  "name": "kumo-v2",
-  "version": "0.0.0",
+  "name": "kumo_v2",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "@vueform/multiselect": "^2.4.2",
     "axios": "^0.27.2",
-    "express": "^4.18.1",
-    "express-session": "^1.17.3",
+    "core-js": "^3.8.3",
     "multiselect": "^0.9.12",
-    "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "selectize": "^0.12.6",
+    "vue": "^2.6.14",
+    "vue-multiselect": "^2.1.6",
+    "vue-router": "^3.5.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^2.3.3",
-    "selectize": "^0.12.6",
-    "vite": "^2.9.12"
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/composition-api": "^1.6.3",
+    "vue-template-compiler": "^2.6.14"
   }
 }
