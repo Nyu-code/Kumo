@@ -42,7 +42,7 @@ nav {
     color: rgb(255, 82, 59);
 }
 
-button {
+.button {
     font-size: 25px;
     padding: 9px 25px;
     background-color:rgb(211, 29, 59);
@@ -53,7 +53,7 @@ button {
     color: white;
 }
 
-button:hover{
+.button:hover{
     background-color:rgb(255, 102, 128);
 }
 

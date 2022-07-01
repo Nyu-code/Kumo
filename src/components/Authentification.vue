@@ -15,7 +15,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" v-model="user.password" placeholder="Enter Password" name="psw" required>
               </div>
-              <button type="submit" value="Login" class="btn solid">Connecter</button>
+              <button type="button submit" value="Login" class="btn solid">Connecter</button>
             </form>
 
             <form @submit.prevent="addUser" class="sign-up-form">
@@ -33,7 +33,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
               </div>
-                <button type="submit" value="Sign up" class="btn solid"> S'inscrire</button>
+                <button type="button submit" value="Sign up" class="btn solid"> S'inscrire</button>
             </form>
           </div>
         </div>
@@ -43,7 +43,7 @@
             <div class="content">
               <h3>Nouveaux utilisateur ?</h3>
               <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
-              <button class="btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
+              <button class="button btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
             </div>
             <img src="../images/SVG/register.svg" class="image" alt="">
           </div>
@@ -51,7 +51,7 @@
             <div class="content">
               <h3>Déjà inscrit ?</h3>
               <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
-              <button class="btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
+              <button class="button btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
             </div>
             <img src="../images/SVG/signin.svg" class="image" alt="">
           </div>
@@ -66,7 +66,7 @@
                     <li><router-link to='/receive'>Réception</router-link></li>
                   </ul>
               </nav>
-              <button class="btn solid" @click="decoUser(user)">Déconnexion</button>
+              <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
           </header>
           <div class="welcome">
           <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
