@@ -11,7 +11,7 @@
             <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
         </header>
         <div class="form">
-            <form @submit-prevent="upload" class="container">
+            <form @submit.prevent="submit_form" class="container">
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
                 <button class="button upload"> Upload </button>
                 <div class="multisearch">
@@ -45,24 +45,23 @@ export default {
             options: []
         }
     },
-    methods:{
-        upload() {
-            console.log('bite')
-        },
+    methods: {
         submit_form() {
+            const users_id = this.value.map((val) => val.code)
             const form_data = new FormData()
             form_data.append('file', null)
-            form_data.append('users', JSON.stringify({}))
+            form_data.append('users', JSON.stringify(users_id))
+            console.log(users_id)
         },
         getUsers(){
-            API.get('/login').then((res)=>{
+            API.get('/getUsers').then((res)=> {
             if(res.data){
                 console.log("hello")
                 for (var i = 0 ; i< res.data.length; i++){
                     this.options.push({
-                        "value": res.data[i].user_id,
-                        "name": res.data[i].username,
-                       "email": res.data[i].email
+                        code: res.data[i].user_id,
+                        name: res.data[i].username,
+                        email: res.data[i].email
                     })
                 }
             }
