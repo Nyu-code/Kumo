@@ -100,12 +100,9 @@ export default {
       API.post('/login', this.user).then((res) => {
         if(res.data) {
           this.user.isConnected = true
-          const userId = {userId : res.data.id}
-          API.post('/getUser', userId).then((res2) => {
-            this.user.username = res2.data[0].username
-            this.$router.push({ path: '/' })
-            alert("Connexion réussite")
-          })
+          this.user.username = res.data.username
+          this.$router.push({ path: '/' })
+          alert("Connexion réussite")
         } else {
           alert("Utilisateur n'existe pas ou mauvais mot de passe")
         }
