@@ -18,7 +18,7 @@
               <button type="button submit" value="Login" class="btn solid">Connecter</button>
             </form>
 
-            <form @submit.prevent="addUser" class="sign-up-form">
+            <form @submit.prevent="addUser, sendEmail"  class="sign-up-form">
               <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
               <h2 class="title">S'inscrire</h2>
               <div class="input-field">
@@ -33,7 +33,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
               </div>
-                <button type="submit" value="Sign up" class="btn solid" @click="sendEmail()"> S'inscrire</button>
+                <button type="submit" value="Sign up" class="btn solid" > S'inscrire</button>
             </form>
           </div>
         </div>
@@ -76,6 +76,7 @@
 </template>
 <script>
 import API from '../api'
+import emailjs from "emailjs-com"
 
 export default {
   data () {
@@ -131,17 +132,16 @@ export default {
       })
     },
     sendEmail(newUser) {
-      emailjs.sendForm('service_38vvemc', 'template_r5fqchh',this.newUser.email)
-      from_name: "xiongnicolas.nx@gmail.com"
+      if (this.newUser.email.endsWith("@efrei.net")){
+      emailjs.sendForm('service_7xgfw4v', 'template_bevu09k',this.newUser.email, '7EgUBkOkR6EWD164k')
         .then((result) => {
-          if (this.newUser.email.endsWith("@efrei.net")){
             console.log('SUCCESS!', result.text);
-          } else {
-            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
-          }
         }, (error) => {
             console.log('FAILED...', error.text);
-        });
+        }); 
+        } else {
+            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
+          }
     },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
