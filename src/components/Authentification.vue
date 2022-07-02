@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']" v-if="!user.isConnected">
+      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']" v-if="!this.isConnected">
         <div class="forms-container">
           <div class="signin-signup">
 
@@ -57,95 +57,102 @@
           </div>
         </div>
       </div>
-      <div v-if="user.isConnected">
-          <header>
-              <img class="logoKumo" src="../images/PNG/KumoLogo.png" alt="Logo de la page">
-              <nav>
-                  <ul class="navlink">
-                    <li><router-link to='/send'>Envoyer</router-link></li>
-                    <li><router-link to='/receive'>Réception</router-link></li>
-                  </ul>
-              </nav>
-              <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
-          </header>
-          <div class="welcome">
-          <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
-          </div>
+      <div v-if="this.isConnected">
+        <Navbar></Navbar>
+        <div class="welcome">
+        <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
+        </div>
       </div>
   </div>
 </template>
 <script>
 import API from '../api'
+import Navbar from './/Navbar.vue'
+import emailjs from "emailjs-com"
 
 export default {
+  components: {
+      Navbar
+  },
   data () {
     return {
       user: {
         username: '',
         email: '',
         username : '',
-        password: '',
-        isConnected : false
+        password: ''
       },
       newUser: {
         username:'',
         email:'',
         password:''
       },
-      isSignUpMode : false
+      isSignUpMode : false,
+      isConnected : false
     }
   },
   methods: {
     loginUser () {
-      API.post('/login', this.user).then((res) => {
-        if(res.data) {
-          this.user.isConnected = true
-          this.user.username = res.data.username
-          this.$router.push({ path: '/' })
-          alert("Connexion réussite")
-        } else {
-          alert("Utilisateur n'existe pas ou mauvais mot de passe")
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
-    },
-    decoUser(user) {
-      API.post('/login', user).then((res) => {
-        this.user.isConnected = false
-        this.$router.push({ path: '/' })
-        alert("Déconnexion réussite")
-      }).catch((err) => {
-        console.log(err);
-      })
+      if (this.newUser.email.endsWith("@gmail.com")){
+        API.post('/login', this.user).then((res) => {
+          if(res.data) {
+            this.$session.start()
+            this.$session.set('token',res.data.token)
+            this.$session.set('username',res.data.username)
+            this.isConnected = true
+            this.user.username = res.data.username
+            this.$router.push({ path: '/' })
+            alert("Connexion réussite")
+          } else {
+            alert("Utilisateur n'existe pas ou mauvais mot de passe")
+          }
+        }).catch((err) => {
+          console.log(err);
+        })
+      } 
+      else {
+            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
+      }
     },
     addUser() {
       API.post('/register', this.newUser).then((res) => {
-        if (res.data) {
+        if(res.data) {
           alert( "Votre compte a été créé! Connectez-vous !")
-        } else {
-          alert("L'email est déjà utilisé")
         }
       }).catch((err) => {
+        alert("L'email est déjà utilisé ou votre mail n'est pas autorisé à s'inscrire.")
         console.log(err);
       })
     },
     sendEmail(newUser) {
-      emailjs.sendForm('service_38vvemc', 'template_r5fqchh',this.newUser.email)
-      from_name: "xiongnicolas.nx@gmail.com"
-        .then((result) => {
-          if (this.newUser.email.endsWith("@efrei.net")){
-            console.log('SUCCESS!', result.text);
-          } else {
+      if (this.newUser.email.endsWith("@efrei.net")){
+        emailjs.sendForm('service_7xgfw4v', 'template_bevu09k',this.newUser.email, '7EgUBkOkR6EWD164k')
+          .then((result) => {
+              console.log('SUCCESS!', result.text);
+          }, (error) => {
+              console.log('FAILED...', error.text);
+          });
+      }
+      else {
             alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
-          }
-        }, (error) => {
-            console.log('FAILED...', error.text);
-        });
+      }
     },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
+    },
+    verifSession(){
+      if(this.$session){
+        if(this.$session.exists()){
+          this.isConnected = true
+          this.user.username = this.$session.get('username')
+          return
+        }
+      }
+      this.isConnected = false
     }
+  },
+  beforeMount() {
+    this.verifSession();
   }
 }
 </script>

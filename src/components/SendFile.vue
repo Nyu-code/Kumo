@@ -1,15 +1,6 @@
 <template>
     <div>
-        <header>
-            <img class="logoKumo" src="../images/PNG/KumoLogo.png" alt="Logo de la page">
-            <nav>
-                <ul class="navlink">
-                <li><router-link to='/send'>Envoyer</router-link></li>
-                <li><router-link to='/receive'>Réception</router-link></li>
-                </ul>
-            </nav>
-            <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
-        </header>
+        <Navbar></Navbar>
         <div class="form">
             <form @submit-prevent="submit_form" class="container">
                 <h2> Déposez vos fichiers appuyant dans la zone ci-dessous</h2>
@@ -42,10 +33,12 @@
 <script>
 import API from '../api'
 import Multiselect from 'vue-multiselect'
+import Navbar from './/Navbar.vue'
 
 export default {
     components: {
-        Multiselect
+        Multiselect,
+        Navbar
     },
     data(){
         return{
@@ -71,7 +64,7 @@ export default {
                     })
                 }
             }
-        })},
+        })}
     },
     beforeMount(){
         this.getUsers()
