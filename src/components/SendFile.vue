@@ -11,7 +11,7 @@
             <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
         </header>
         <div class="form">
-            <form @submit-prevent="upload" class="container">
+            <form @submit-prevent="submit_form" class="container">
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
                 <v-file-input
                     counter
@@ -52,13 +52,11 @@ export default {
         }
     },
     methods:{
-        upload() {
-            console.log('bite')
-        },
         submit_form() {
+            const users_id = this.value.map((val) => val.code)
             const form_data = new FormData()
             form_data.append('file', null)
-            form_data.append('users', JSON.stringify({}))
+            form_data.append('users', JSON.stringify(users_id))
         },
         getUsers(){
             API.get('/getUsers').then((res)=>{
