@@ -12,13 +12,15 @@
         </header>
         <div class="form">
             <form @submit-prevent="submit_form" class="container">
-                <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
-                <v-file-input
+                <h2> Déposez vos fichiers appuyant dans la zone ci-dessous</h2>
+                <div class="file-input">
+                    <v-file-input
                     counter
                     show-size
                     truncate-length="50"
-                ></v-file-input>
-                <button class="button upload"> Upload </button>
+                    ></v-file-input>
+                </div>
+                <h2>Ensuite veuillez selectionner un ou plusieurs utilisateur</h2>
                 <div class="multisearch">
                       <multiselect 
                             v-model="value"
@@ -85,12 +87,15 @@ form{
     justify-content: center;
     flex-direction: column;
 }
+h2{
+    margin-top: 3rem;
+}
 .container {
     margin-top: 3rem;
 }
 .multisearch{
     margin-top: 3rem;
-    width: 80%;
+    width: 70%;
 }
 .upload {
     margin-top: 3rem;
@@ -98,5 +103,9 @@ form{
 .btn.submit{
     margin-top: 3rem;
     color: white;
+}
+.file-input{
+    margin-top: 3rem;
+    width: 70%;
 }
 </style>
