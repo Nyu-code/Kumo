@@ -11,18 +11,25 @@
             <button class="button btn solid" @click="decoUser(user)">Déconnexion</button>
         </header>
         <div class="form">
-            <form @submit.prevent="submit_form" class="container">
+            <form @submit-prevent="upload" class="container">
                 <h2> Déposez vos fichiers en glissant dans la zone ou appuyez sur le bouton</h2>
+                <v-file-input
+                    counter
+                    show-size
+                    truncate-length="50"
+                ></v-file-input>
                 <button class="button upload"> Upload </button>
                 <div class="multisearch">
                       <multiselect 
                             v-model="value"
-                            placeholder="Sélectionner un ou plusieurs utilisateur"
+                            tag-placeholder="Add this as new tag"
+                            placeholder="Search or add a tag"
                             label="name"
-                            track-by="name"
+                            track-by="value"
                             :options="options"
                             :multiple="true"
                             :taggable="true"
+                            @tag="addTag"
                         />
                 </div>
                 <button type="submit" class="button btn submit" value="envoyer">Submit</button>
@@ -45,18 +52,26 @@ export default {
             options: []
         }
     },
-    methods: {
+    methods:{
+        addTag(newTag) {
+            const tag = {
+                name: newTag,
+                code: newTag
+            }
+            this.options.push(tag)
+            this.value.push(tag)
+        },
+        upload() {
+            console.log('bite')
+        },
         submit_form() {
-            const users_id = this.value.map((val) => val.code)
             const form_data = new FormData()
             form_data.append('file', null)
-            form_data.append('users', JSON.stringify(users_id))
-            console.log(users_id)
+            form_data.append('users', JSON.stringify({}))
         },
         getUsers(){
-            API.get('/getUsers').then((res)=> {
+            API.get('/getUsers').then((res)=>{
             if(res.data){
-                console.log("hello")
                 for (var i = 0 ; i< res.data.length; i++){
                     this.options.push({
                         code: res.data[i].user_id,
@@ -93,6 +108,5 @@ form{
 }
 .btn.submit{
     margin-top: 3rem;
-    color: white;
 }
 </style>
