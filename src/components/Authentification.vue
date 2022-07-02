@@ -114,6 +114,9 @@ export default {
         API.post('/register', this.newUser).then((res) => {
           if(res.data) {
             alert( "Votre compte a été créé! Connectez-vous !")
+            this.newUser.username = ''
+            this.newUser.email = ''
+            this.newUser.password = ''
           }
         }).catch((err) => {
           alert("L'email est déjà utilisé ou votre mail n'est pas autorisé à s'inscrire.")
