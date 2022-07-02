@@ -18,7 +18,7 @@
               <button type="button submit" value="Login" class="btn solid">Connecter</button>
             </form>
 
-            <form @submit.prevent="addUser, sendEmail"  class="sign-up-form">
+            <form @submit.prevent="addUser"  class="sign-up-form">
               <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
               <h2 class="title">S'inscrire</h2>
               <div class="input-field">
@@ -93,7 +93,6 @@ export default {
   },
   methods: {
     loginUser () {
-      if (this.newUser.email.endsWith("@gmail.com")){
         API.post('/login', this.user).then((res) => {
           if(res.data) {
             this.$session.start()
@@ -109,20 +108,21 @@ export default {
         }).catch((err) => {
           console.log(err);
         })
-      } 
-      else {
-            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
-      }
     },
     addUser() {
-      API.post('/register', this.newUser).then((res) => {
-        if(res.data) {
-          alert( "Votre compte a été créé! Connectez-vous !")
-        }
-      }).catch((err) => {
-        alert("L'email est déjà utilisé ou votre mail n'est pas autorisé à s'inscrire.")
-        console.log(err);
-      })
+      if (this.newUser.email.endsWith("@gmail.com")){
+        API.post('/register', this.newUser).then((res) => {
+          if(res.data) {
+            alert( "Votre compte a été créé! Connectez-vous !")
+          }
+        }).catch((err) => {
+          alert("L'email est déjà utilisé ou votre mail n'est pas autorisé à s'inscrire.")
+          console.log(err);
+        })
+      }
+      else {
+        alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
+      }
     },
     sendEmail(newUser) {
       if (this.newUser.email.endsWith("@efrei.net")){
