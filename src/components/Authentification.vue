@@ -18,7 +18,7 @@
               <button type="button submit" value="Login" class="btn solid">Connecter</button>
             </form>
 
-            <form @submit.prevent="addUser" class="sign-up-form">
+            <form @submit.prevent="addUser, sendEmail"  class="sign-up-form">
               <img src="../images/PNG/KumoLogo2.png" class="image2" alt="">
               <h2 class="title">S'inscrire</h2>
               <div class="input-field">
@@ -33,7 +33,7 @@
                 <i class="fas fa-lock"></i>
                 <input type="password" v-model="newUser.password" placeholder="Mot de passe" required>
               </div>
-                <button type="submit" value="Sign up" class="btn solid" @click="sendEmail()"> S'inscrire</button>
+                <button type="submit" value="Sign up" class="btn solid" > S'inscrire</button>
             </form>
           </div>
         </div>
