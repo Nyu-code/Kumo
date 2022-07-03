@@ -15,10 +15,14 @@
 
 <script>
 export default {
+    data(){
+        return{
+        }
+    },
     methods: {
         decoUser(){
             this.$session.destroy();
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/' });
             location.reload();
         }
     }

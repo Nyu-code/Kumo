@@ -58,7 +58,7 @@
         </div>
       </div>
       <div v-if="this.isConnected">
-        <Navbar></Navbar>
+        <navbar></navbar>
         <div class="welcome">
         <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
         </div>
@@ -98,9 +98,8 @@ export default {
             this.$session.start()
             this.$session.set('token',res.data.token)
             this.$session.set('username',res.data.username)
-            this.isConnected = true
             this.user.username = res.data.username
-            this.$router.push({ path: '/' })
+            this.isConnected = true
             alert("Connexion réussite")
           } else {
             alert("Utilisateur n'existe pas ou mauvais mot de passe")
@@ -144,14 +143,14 @@ export default {
       this.isSignUpMode = !this.isSignUpMode;
     },
     verifSession(){
-      if(this.$session){
-        if(this.$session.exists()){
-          this.isConnected = true
-          this.user.username = this.$session.get('username')
-          return
+        if(this.$session){
+            if(this.$session.exists()){
+            this.isConnected = true
+            this.user.username = this.$session.get('username')
+            return
+            }
         }
-      }
-      this.isConnected = false
+        this.isConnected = false
     }
   },
   beforeMount() {
