@@ -1,26 +1,29 @@
 <template>
     <div>
-        <div class="connected" v-if="isConnected">
-            <navbar></navbar>
+        <div class="connected">
+            <Navbar/>
             <div class="grid">
                 <div class="form">
-                    <form @submit-prevent="submit_form" class="container">
+                    <form @submit.prevent="submit_form" class="container">
                         <h2> Déposez vos fichiers appuyant dans la zone ci-dessous</h2>
                         <div class="file-input">
                             <v-file-input
-                            counter
-                            show-size
-                            truncate-length="50"
-                            ></v-file-input>
+                                counter
+                                show-size
+                                aria-required="true"
+                                truncate-length="20"
+                                v-model="file"
+                            />
                         </div>
                         <h2>Ensuite veuillez selectionner un ou plusieurs utilisateur</h2>
                         <div class="multisearch">
-                            <multiselect 
+                            <multiselect
                                     v-model="value"
                                     tag-placeholder=""
                                     placeholder="Selectionner un ou plusieurs utilisateur"
                                     label="name"
-                                    track-by="value"
+                                    track-by="name"
+                                    aria-required="true"
                                     :options="options"
                                     :multiple="true"
                                     :taggable="true"
@@ -30,12 +33,8 @@
                     </form>
                 </div>
                 <div class="history">
-
                 </div>
             </div>
-        </div>
-        <div class="notconnected" v-if="!isConnected">
-            <unconnected-page></unconnected-page>
         </div>
     </div>
 </template>
@@ -43,7 +42,7 @@
 <script>
 import API from '../api'
 import Multiselect from 'vue-multiselect'
-import Navbar from './/Navbar.vue'
+import Navbar from './Navbar.vue'
 import UnconnectedPage from './UnconnectedPage.vue'
 
 export default {
@@ -56,41 +55,36 @@ export default {
         return{
             value: [],
             options: [],
-            isConnected : false
+            file: null
         }
     },
     methods:{
         submit_form() {
             const users_id = this.value.map((val) => val.code)
             const form_data = new FormData()
-            form_data.append('file', null)
+            console.log(users_id)
+            form_data.append('file', this.file)
             form_data.append('users', JSON.stringify(users_id))
+            API.post('/sendFile', form_data)
+            .then((res) => {
+                console.log(res)
+            }).catch((err) => {
+                console.log(err)
+            })
         },
-        getUsers(){
+        getUsers() {
             API.get('/getUsers').then((res)=>{
-            if(res.data){
-                for (var i = 0 ; i< res.data.length; i++){
+                for (let i=0; i < res.data.length; i++){
                     this.options.push({
-                        "value": res.data[i].user_id,
+                        "code": res.data[i].user_id,
                         "name": res.data[i].username,
-                        "email": res.data[i].email
                     })
                 }
-            }
-        })},
-        verifSession(){
-            if(this.$session){
-                if(this.$session.exists()){
-                this.isConnected = true
-                return
-                }
-            }
-            this.isConnected = false
-        }
+            })
+        },
     },
-    beforeMount(){
-        this.getUsers();
-        this.verifSession();
+    beforeMount() {
+        this.getUsers()
     }
 }
 </script>

@@ -8,9 +8,10 @@ import ReceiveFile from './components/ReceiveFile.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: Authentification },
-  { path: '/receive', component: ReceiveFile },
-  { path: '/send', component: SendFile }
+  { path: '/', redirect: '/send', name: 'home' },
+  { path: '/auth', name: 'auth', component: Authentification },
+  { path: '/receive', name: 'reveived', component: ReceiveFile },
+  { path: '/send', name: 'send', component: SendFile }
 ]
 
 const router = new VueRouter({

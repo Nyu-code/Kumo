@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import API from '../api'
+
 export default {
     data(){
         return{
@@ -21,9 +23,10 @@ export default {
     },
     methods: {
         decoUser(){
-            this.$session.destroy();
-            this.$router.push({ path: '/' });
-            location.reload();
+            this.$session.destroy()
+            this.$cookies.remove('token')
+            API.defaults.headers.common['Authorization'] = ""
+            this.$router.push({ path: '/auth' })
         }
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']" v-if="!this.isConnected">
+      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']">
         <div class="forms-container">
           <div class="signin-signup">
 
@@ -57,17 +57,11 @@
           </div>
         </div>
       </div>
-      <div v-if="this.isConnected">
-        <navbar></navbar>
-        <div class="welcome">
-        <h2>Bienvenue</h2><p id="username">{{user.username}}</p>
-        </div>
-      </div>
   </div>
 </template>
 <script>
 import API from '../api'
-import Navbar from './/Navbar.vue'
+import Navbar from './Navbar.vue'
 import emailjs from "emailjs-com"
 
 export default {
@@ -93,19 +87,17 @@ export default {
   },
   methods: {
     loginUser () {
-        API.post('/login', this.user).then((res) => {
-          if(res.data) {
+        API.post('/login', this.user)
+        .then((res) => {
             this.$session.start()
-            this.$session.set('token',res.data.token)
-            this.$session.set('username',res.data.username)
-            this.user.username = res.data.username
-            this.isConnected = true
-            alert("Connexion réussite")
-          } else {
-            alert("Utilisateur n'existe pas ou mauvais mot de passe")
-          }
+            this.$session.set('token', res.data.token)
+            this.$session.set('username', res.data.username)
+            this.$cookies.set('token', res.data.token)
+            API.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
+            this.$router.push({ path: '/' })
         }).catch((err) => {
-          console.log(err);
+          alert("Utilisateur n'existe pas ou mauvais mot de passe")
+          console.log(err)
         })
     },
     addUser() {
