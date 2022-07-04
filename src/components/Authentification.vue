@@ -62,7 +62,6 @@
 <script>
 import API from '../api'
 import Navbar from './Navbar.vue'
-import emailjs from "emailjs-com"
 
 export default {
   components: {
@@ -111,12 +110,12 @@ export default {
             this.newUser.password = ''
           }
         }).catch((err) => {
-          alert("L'email est déjà utilisé ou votre mail n'est pas autorisé à s'inscrire.")
+          alert("L'email entré est déjà utilisé ou votre email n'est pas autorisé à s'inscrire.")
           console.log(err);
         })
       }
       else {
-        alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
+        alert ("L'adresse mail ne se trouve pas dans le domaine gmail.com")
       }
     },
     signUpMode(){

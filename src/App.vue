@@ -1,6 +1,6 @@
 <template>
   <main>
-    <router-view/>
+    <router-view v-if="!loading" />
   </main>
 </template>
 
@@ -9,6 +9,11 @@ import API from './api'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      loading: true
+    }
+  },
   methods: {
     login(user) {
       console.log("Loging in the user")
@@ -27,18 +32,23 @@ export default {
     }
   },
   beforeMount() {
+    this.loading = true
     const token = this.$cookies.get('token')
-    if (!token && this.$router.currentRoute.name !== 'auth')
+    if (!token && this.$router.currentRoute.name !== 'auth') {
+      this.loading = false
       this.$router.push({ name: 'auth', query: { redirect: this.$router.currentRoute.path } })
+    }
     else if (this.$router.currentRoute.name !== 'auth') {
       API.post('/verifyToken', { token: token })
       .then((res) => {
         this.login(res.data)
+        this.loading = false
         if (this.$router.currentRoute.name === 'auth')
           this.$router.push({ name: 'home'})
       }).catch((err) => {
         console.log(err)
         this.logout()
+        this.loading = false
         this.$router.push({ name: 'auth', query: { redirect: this.$router.currentRoute.path } })
       })
     }
