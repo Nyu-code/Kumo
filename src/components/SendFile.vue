@@ -35,20 +35,23 @@
                 <div class="historical-container">
                     <table class="historical">
                         <tr class="historical-header">
-                            <th>Nom d'utilisateur du réceptionneur</th>
+                            <th>Nom d'utilisateur du récepteur</th>
                             <th>Mail</th>
                             <th>Date d'expédition</th>
                             <th>Nom du fichier</th>
                             <th id="delete-file">Supprimer l'accès</th>
                         </tr>
-                            <tr v-for="tx in historical" :key="tx.file_id">
-                            <td>{{tx.username}}</td>
-                            <td>{{tx.email}}</td>
+                        <tr v-for="tx in historical" :key="tx.file_id">
+                            <td>{{tx.send_to[0].username}}</td>
+                            <td>{{tx.send_to[0].email}}</td>
                             <td>{{tx.send_at}}</td>
                             <td>{{tx.filename}}</td>
                             <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
                         </tr>
                     </table>
+                    <div class="tx-buttons">
+                        <button class="button" v-on:click="deleteAll()">Tout supprimer</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -114,7 +117,7 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
-form{
+form, .historical-container, .tx-buttons, .grid{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,7 +131,7 @@ h2{
 }
 .multisearch{
     margin-top: 3rem;
-    width: 50%;
+    width: 70%;
 }
 .upload {
     margin-top: 3rem;
@@ -139,15 +142,57 @@ h2{
 }
 .file-input{
     margin-top: 3rem;
-    width: 50%;
+    width: 70%;
 }
-.grid {
-    display: grid;
+
+.historical{
+    margin: 2rem;
+    width: 90%;
+    text-align: center;
+    align-items: center;
+    text-indent: initial;
+    overflow: hidden;
+    border-collapse: collapse;
+    border-radius:15px;
+    table-layout: fixed;
+    box-shadow: 0 0 30px 0 rgba(0,0,0,.15);
 }
-.form {
-    grid-column: 1/2;
+
+th {
+    background-color:tomato;
+    border-top: none;
+    color:white;
+    padding:16px 0 16px 0;
 }
-.history {
-    grid-column: 2/2;
+
+td {
+    padding:12px 0 12px 0;
+    overflow-wrap: break-word;
+}
+
+td:first-child{
+    font-weight: bold;
+}
+
+td:first-child, th:first-child {
+    border-left: none;
+}
+
+tbody tr{
+    background-color: #ffffff;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+#delete-file {
+    padding : 10px;
+}
+
+.tx-buttons {
+    display: flex;
+}
+
+.image-suppr {
+    cursor: pointer;
+    width: 20%;
 }
 </style>

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import {API} from '../api'
+import API from '../api'
 import Navbar from './/Navbar.vue'
 import UnconnectedPage from './UnconnectedPage.vue'
 
