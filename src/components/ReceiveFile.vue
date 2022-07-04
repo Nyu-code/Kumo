@@ -8,16 +8,16 @@
           <th>Expéditeur</th>
           <th>Date d'expédition</th>
           <th>Commentaire</th>
-          <th id="delete-file"></th>
+          <th id="delete-file">Supprimer</th>
         </tr>
         <tr v-for="file in files" :key="file.file_id">
-          <td>{{file.filename}}
-              <i class="fa-solid fa-file"></i>
+          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file">
+              {{file.filename}}
           </td>
-          <td>{{file.sender_id}}</td>
+          <td>{{file.email}}</td>
           <td>{{file.send_at}}</td>
           <td>{{file.comment}}</td>
-          <td><img src="images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
+          <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
         </tr>
       </table>
       <div class="files-buttons">
@@ -43,8 +43,7 @@ export default {
   data(){
     return{
       isConnected : false,
-      files : [],
-      user_id : ''
+      files : []
     }
   },
   methods:{
@@ -59,15 +58,20 @@ export default {
     },
     getUserFile(){
       API.get('/receivedFiles').then((res)=>{
-        files = res.data
+        this.files = res.data
       })
     },
     deleteFile(file_id){
+      API.post('/deleteFile',file_id).then((res)=>{
+
+      })
     }
   },
   beforeMount() {
     this.verifSession();
-    //this.getUserFile(user_id);
+  },
+  created(){
+    this.getUserFile();
   }
 }
 </script>
@@ -124,9 +128,16 @@ tbody tr{
   margin-left: 20%;
 }
 
-.fa-solid.fa-file {
+.header-fichier-nom{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.file {
     cursor: pointer;
-    width: 40%;
+    width: 20%;
 }
 
 .image-suppr {

@@ -32,7 +32,23 @@
                         <button type="submit" class="button btn submit" value="envoyer">Submit</button>
                     </form>
                 </div>
-                <div class="history">
+                <div class="historical-container">
+                    <table class="historical">
+                        <tr class="historical-header">
+                            <th>Nom d'utilisateur du réceptionneur</th>
+                            <th>Mail</th>
+                            <th>Date d'expédition</th>
+                            <th>Nom du fichier</th>
+                            <th id="delete-file">Supprimer l'accès</th>
+                        </tr>
+                            <tr v-for="tx in historical" :key="tx.file_id">
+                            <td>{{tx.username}}</td>
+                            <td>{{tx.email}}</td>
+                            <td>{{tx.send_at}}</td>
+                            <td>{{tx.filename}}</td>
+                            <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
@@ -55,7 +71,8 @@ export default {
         return{
             value: [],
             options: [],
-            file: null
+            file: null,
+            historical : []
         }
     },
     methods:{
@@ -82,9 +99,15 @@ export default {
                 }
             })
         },
+        getHistorical(){
+            API.get('/getSendHistorical').then((res)=>{
+                this.historical = res.data
+            })
+        }
     },
     beforeMount() {
         this.getUsers()
+        this.getHistorical()
     }
 }
 </script>
