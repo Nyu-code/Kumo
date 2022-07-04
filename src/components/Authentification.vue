@@ -119,19 +119,6 @@ export default {
         alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
       }
     },
-    sendEmail(newUser) {
-      if (this.newUser.email.endsWith("@efrei.net")){
-        emailjs.sendForm('service_7xgfw4v', 'template_bevu09k',this.newUser.email, '7EgUBkOkR6EWD164k')
-          .then((result) => {
-              console.log('SUCCESS!', result.text);
-          }, (error) => {
-              console.log('FAILED...', error.text);
-          });
-      }
-      else {
-            alert ("L'adresse mail ne se trouve pas dans le domaine efrei.net")
-      }
-    },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
     },
