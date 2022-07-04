@@ -31,6 +31,10 @@
                         </div>
                         <button type="submit" class="button btn submit" value="envoyer">Submit</button>
                     </form>
+                    <div class="messageupload">
+                        <p v-if="upload">Vous avez bien upload votre fichier !</p>
+                        <p v-if="upload == false">Il y a eu un problème lors de l'upload. Votre fichier n'a pas pu être upload</p>
+                    </div>
                 </div>
                 <div class="historical-container">
                     <table class="historical">
@@ -75,7 +79,8 @@ export default {
             value: [],
             options: [],
             file: null,
-            historical : []
+            historical : [],
+            upload : null
         }
     },
     methods:{
@@ -88,8 +93,11 @@ export default {
             API.post('/sendFile', form_data)
             .then((res) => {
                 console.log(res)
+                this.getHistorical()
+                this.upload = true
             }).catch((err) => {
                 console.log(err)
+                this.upload = false
             })
         },
         getUsers() {
@@ -194,5 +202,12 @@ tbody tr{
 .image-suppr {
     cursor: pointer;
     width: 20%;
+}
+
+.messageupload {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    margin: 2rem;
 }
 </style>
