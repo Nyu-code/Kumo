@@ -10,11 +10,6 @@ Vue.use(VueCookies)
 
 new Vue({
   router,
-  render: h => h(App),
   vuetify,
-
-  data() {
-    return {
-    }
-  }
+  render: h => h(App)
 }).$mount("#app")

@@ -25,7 +25,7 @@ export default {
         decoUser(){
             this.$session.destroy()
             this.$cookies.remove('token')
-            API.defaults.headers.common['Authorization'] = ""
+            API.defaults.headers.common['Authorization'] = ''
             this.$router.push({ path: '/auth' })
         }
     }

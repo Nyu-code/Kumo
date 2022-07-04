@@ -92,6 +92,7 @@ export default {
             this.$session.start()
             this.$session.set('token', res.data.token)
             this.$session.set('username', res.data.username)
+            this.$session.set('user_id', res.data.id)
             this.$cookies.set('token', res.data.token)
             API.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
             this.$router.push({ path: '/' })
