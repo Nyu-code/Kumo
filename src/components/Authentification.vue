@@ -62,7 +62,6 @@
 <script>
 import API from '../api'
 import Navbar from './Navbar.vue'
-import emailjs from "emailjs-com"
 
 export default {
   components: {

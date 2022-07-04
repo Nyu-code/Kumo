@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import API from '../api'
+import {API} from '../api'
 import Navbar from './/Navbar.vue'
 import UnconnectedPage from './UnconnectedPage.vue'
 
@@ -57,7 +57,8 @@ export default {
       }
       this.isConnected = false
     },
-    getUserFile(){
+    getUserFile() {
+      console.log(API.defaults)
       API.get('/receivedFiles').then((res)=>{
         files = res.data
       })
