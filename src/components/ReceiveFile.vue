@@ -11,7 +11,7 @@
           <th id="delete-file">Supprimer</th>
         </tr>
         <tr v-for="file in files" :key="file.file_id">
-          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file">
+          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file" v-on:click="downloadFile(file.file_id)">
               {{file.filename}}
           </td>
           <td>{{file.email}}</td>
@@ -64,6 +64,11 @@ export default {
     },
     deleteFile(file_id){
       API.post('/deleteFile',file_id).then((res)=>{
+
+      })
+    },
+    downloadFile(file_id){
+      API.post('/download/:file_id',file_id).then((res)=>{
 
       })
     }
