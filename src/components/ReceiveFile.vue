@@ -11,9 +11,67 @@
           <th id="delete-file">Supprimer</th>
         </tr>
         <tr v-for="file in files" :key="file.file_id">
-          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file" v-on:click="downloadFile(file.file_id, file.filename)">
-              {{file.filename}}
-          </td>
+          <div data-app>
+            <v-row justify="center">
+              <v-dialog
+                persistent
+                v-model="dialog"
+                max-width="300px"
+                >
+              <template v-slot:activator="{ on, attrs }">
+                <td class="header-fichier-nom">
+                  <img src="../images/PNG/icone-fichier-document-noir.png" 
+                        alt="icon fichier" 
+                        class="file"
+                        v-bind="attrs"
+                        v-on="on">
+                        {{file.filename}}
+                  </td>
+              </template>
+                <v-card>
+                  <v-card-title>
+                    <span class="text-h5">Veuillez entrer votre mot de passe</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12">
+                          <v-text-field
+                            label="Password"
+                            type="password"
+                            v-model="password"
+                            required
+                          ></v-text-field>
+                        </v-col>
+                        <v-col
+                          cols="12"
+                          sm="6"
+                        >
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialog = false"
+                    >
+                      Fermer
+                    </v-btn>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      @click="dialog = false & downloadFile(file.file_id, password)"
+                    >
+                      Valider
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
+          </div>
           <td>{{file.email}}</td>
           <td>{{file.send_at}}</td>
           <td>{{file.comment}}</td>
@@ -43,7 +101,9 @@ export default {
   data(){
     return{
       isConnected : false,
-      files : []
+      files : [],
+      dialog : false,
+      password : ""
     }
   },
   methods:{
@@ -64,7 +124,7 @@ export default {
     },
     deleteFile(file_id){
       API.post('/deleteFile',file_id).then((res)=>{
-
+        return
       })
     },
     downloadFile(file_id, filename){
@@ -82,6 +142,8 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+      this.password = ""
+      return
     }
   },
   beforeMount() {
