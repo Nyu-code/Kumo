@@ -15,6 +15,7 @@
             <v-row justify="center">
               <v-dialog
                 persistent
+                v-model="dialog"
                 max-width="300px"
                 >
               <template v-slot:activator="{ on, attrs }">
@@ -62,7 +63,7 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="downloadFile(file.file_id, password)"
+                      @click="dialog = false & downloadFile(file.file_id, password)"
                     >
                       Valider
                     </v-btn>
@@ -101,6 +102,7 @@ export default {
     return{
       isConnected : false,
       files : [],
+      dialog : false,
       password : ""
     }
   },
@@ -122,12 +124,14 @@ export default {
     },
     deleteFile(file_id){
       API.post('/deleteFile',file_id).then((res)=>{
-
+        return
       })
     },
     downloadFile(file_id, password){
       API.post('/download/'+file_id,{password}).then((res)=>{
       })
+      this.password = ""
+      return
     }
   },
   beforeMount() {
