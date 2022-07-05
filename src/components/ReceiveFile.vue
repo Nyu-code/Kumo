@@ -63,7 +63,7 @@
                     <v-btn
                       color="blue darken-1"
                       text
-                      @click="dialog = false & downloadFile(file.file_id, password)"
+                      @click="dialog = false & downloadFile(file.file_id, file.filename, password)"
                     >
                       Valider
                     </v-btn>
@@ -75,7 +75,7 @@
           <td>{{file.email}}</td>
           <td>{{file.send_at}}</td>
           <td>{{file.comment}}</td>
-          <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
+          <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id, file.filename)"></td>
         </tr>
       </table>
       <div class="files-buttons">
@@ -127,10 +127,10 @@ export default {
         return
       })
     },
-    downloadFile(file_id, filename){
+    downloadFile(file_id, filename, password){
       API.post('/download/' + file_id, {
         responseType: 'blob',
-        password: 'arthur'
+        password: password
       }).then((res)=>{
         console.log(res)
         const url = window.URL.createObjectURL(new Blob([res.data]))
