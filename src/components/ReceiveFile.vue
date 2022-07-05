@@ -11,7 +11,7 @@
           <th id="delete-file">Supprimer</th>
         </tr>
         <tr v-for="file in files" :key="file.file_id">
-          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file" v-on:click="downloadFile(file.file_id)">
+          <td class="header-fichier-nom"><img src="../images/PNG/icone-fichier-document-noir.png" alt="icon fichier" class="file" v-on:click="downloadFile(file.file_id, file.filename)">
               {{file.filename}}
           </td>
           <td>{{file.email}}</td>
@@ -67,9 +67,20 @@ export default {
 
       })
     },
-    downloadFile(file_id){
-      API.post('/download/:file_id',file_id).then((res)=>{
-
+    downloadFile(file_id, filename){
+      API.post('/download/' + file_id, {
+        responseType: 'blob',
+        password: 'arthur'
+      }).then((res)=>{
+        console.log(res)
+        const url = window.URL.createObjectURL(new Blob([res.data]))
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', filename)
+        document.body.appendChild(link)
+        link.click()
+      }).catch((err) => {
+        console.log(err)
       })
     }
   },

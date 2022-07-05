@@ -111,8 +111,11 @@ export default {
             })
         },
         getHistorical(){
-            API.get('/getSendHistorical').then((res)=>{
+            API.get('/getSendHistorical')
+            .then((res)=>{
                 this.historical = res.data
+            }).catch((err) => {
+                console.log(err)
             })
         }
     },
