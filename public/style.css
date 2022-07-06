@@ -9,3 +9,17 @@ li,a{
     text-decoration: none;
     color: black;
 }
+.button {
+    font-size: 25px;
+    padding: 9px 25px;
+    background-color:rgb(211, 29, 59);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    color: white;
+}
+
+.button:hover{
+    background-color:rgb(255, 102, 128);
+}
