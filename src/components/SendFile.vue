@@ -37,25 +37,45 @@
                     </div>
                 </div>
                 <div class="historical-container">
-                    <table class="historical">
-                        <tr class="historical-header">
-                            <th>Nom d'utilisateur du récepteur</th>
-                            <th>Mail</th>
-                            <th>Date d'expédition</th>
-                            <th>Nom du fichier</th>
-                            <th id="delete-file">Supprimer l'accès</th>
-                        </tr>
-                        <tr v-for="tx in historical" :key="tx.file_id">
-                            <td>{{tx.send_to[0].username}}</td>
-                            <td>{{tx.send_to[0].email}}</td>
-                            <td>{{tx.send_at}}</td>
-                            <td>{{tx.filename}}</td>
-                            <td><img src="../images/PNG/cross_icon.png" class="image-suppr" alt="pour supprimer un fichier" v-on:click="deleteFile(file.file_id)"></td>
-                        </tr>
-                    </table>
-                    <div class="tx-buttons">
-                        <button class="button" v-on:click="deleteAll()">Tout supprimer</button>
-                    </div>
+                    <v-card id="table">
+                        <v-tabs
+                        v-model="tab"
+                        background-color="primary"
+                        dark
+                        >
+                        <v-tab
+                            v-for="tx in historical"
+                            :key="tx.file_id"
+                            class="historical-header"
+                        >
+                            {{ tx.filename }}
+                        </v-tab>
+                        </v-tabs>
+
+                        <v-tabs-items v-model="tab">
+                        <v-tab-item
+                            class="user"
+                            v-for="tabUser in listUtilisateurEnvoyer"
+                            :key="tabUser[0].file_id"
+                        >
+                            <v-card class="v-card" v-for="user in tabUser" :key="user.user_id">
+                                <v-card-text>
+                                    <div class="receiverUsername">Nom d'utilisateur : {{ user.username }}</div>
+                                    <div class="receiverEmail">Son email : {{user.email}}</div>
+                                </v-card-text>
+                                <v-card-actions class="v-btn">
+                                    <v-btn
+                                    color="error"
+                                    dark
+                                    v-on:click="this.deleteAccesTo(user.file_id, user.user_id)"
+                                    >
+                                    Révoquer l'accès
+                                    </v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-tab-item>
+                        </v-tabs-items>
+                    </v-card>
                 </div>
             </div>
         </div>
@@ -80,7 +100,9 @@ export default {
             options: [],
             file: null,
             historical : [],
-            upload : null
+            upload : null,
+            tab: null,
+            listUtilisateurEnvoyer : []
         }
     },
     methods:{
@@ -113,7 +135,17 @@ export default {
         getHistorical(){
             API.get('/getSendHistorical')
             .then((res)=>{
+                for(let i = 0 ; i < res.data.length; i++){
+                    this.listUtilisateurEnvoyer.push(res.data[i].send_to)
+                }
                 this.historical = res.data
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        deleteAccessTo(file_id, user_id){
+            API.post("/removeUserAccess", file_id, user_id).then((res)=>{
+
             }).catch((err) => {
                 console.log(err)
             })
@@ -156,61 +188,30 @@ h2{
     width: 70%;
 }
 
-.historical{
-    margin: 2rem;
-    width: 90%;
-    text-align: center;
-    align-items: center;
-    text-indent: initial;
-    overflow: hidden;
-    border-collapse: collapse;
-    border-radius:15px;
-    table-layout: fixed;
-    box-shadow: 0 0 30px 0 rgba(0,0,0,.15);
-}
-
-th {
-    background-color:tomato;
-    border-top: none;
-    color:white;
-    padding:16px 0 16px 0;
-}
-
-td {
-    padding:12px 0 12px 0;
-    overflow-wrap: break-word;
-}
-
-td:first-child{
-    font-weight: bold;
-}
-
-td:first-child, th:first-child {
-    border-left: none;
-}
-
-tbody tr{
-    background-color: #ffffff;
-    border-bottom: 1px solid #f2f2f2;
-}
-
-#delete-file {
-    padding : 10px;
-}
-
-.tx-buttons {
-    display: flex;
-}
-
-.image-suppr {
-    cursor: pointer;
-    width: 20%;
-}
-
 .messageupload {
     display: flex;
     justify-content: center;
     font-size: 20px;
     margin: 2rem;
+}
+
+.button {
+    margin: 3rem;
+}
+#table {
+    width: 70%;
+    text-indent: initial;
+}
+.historical-header{
+    margin-right: 2rem;
+}
+.user , .v-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.v-card {
+    margin: 1rem;
 }
 </style>

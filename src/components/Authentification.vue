@@ -1,6 +1,6 @@
 <template>
   <div>
-      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']">
+      <div class="container" :class="[isSignUpMode ? 'sign-up-mode' : '']" >
         <div class="forms-container">
           <div class="signin-signup">
 
@@ -43,7 +43,7 @@
             <div class="content">
               <h3>Nouveaux utilisateur ?</h3>
               <p>Venez créer votre compte pour pouvoir partager en toute sécurité vos fichiers !</p>
-              <button class="button btn transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
+              <button class="transparent" id="sign-up-btn" @click="signUpMode()">S'inscrire</button>
             </div>
             <img src="../images/SVG/register.svg" class="image" alt="">
           </div>
@@ -51,7 +51,7 @@
             <div class="content">
               <h3>Déjà inscrit ?</h3>
               <p>Venez vous connecter afin de partager vos fichiers avec vos collègues !</p>
-              <button class="button btn transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
+              <button class="transparent" id="sign-in-btn" @click="signUpMode()">Se connecter</button>
             </div>
             <img src="../images/SVG/signin.svg" class="image" alt="">
           </div>
@@ -143,7 +143,6 @@ export default {
   box-sizing: border-box;
 }
 .container{
-  position: relative;
   width: 100%;
   min-height: 100vh;
   background-color: white;
@@ -303,7 +302,7 @@ form.sign-up-form{
   padding: 0.7rem 0;
 }
 
-.btn.transparent{
+.transparent{
   margin: 0;
   background: none;
   border: 2px solid white;
@@ -312,6 +311,7 @@ form.sign-up-form{
   font-weight: 600;
   font-size: 0.8rem;
 }
+
 .image {
   width: 100%;
   transition: 1.1s .6s ease-in-out;

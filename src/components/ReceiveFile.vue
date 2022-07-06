@@ -215,6 +215,7 @@ tbody tr{
 }
 
 .file {
+    margin-top: 1rem;
     cursor: pointer;
     width: 20%;
 }
