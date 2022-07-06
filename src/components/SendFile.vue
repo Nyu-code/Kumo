@@ -67,7 +67,7 @@
                                     <v-btn
                                     color="error"
                                     dark
-                                    v-on:click="this.deleteAccesTo(user.file_id, user.user_id)"
+                                    @click="this.deleteAccesTo(10, 1)"
                                     >
                                     Révoquer l'accès
                                     </v-btn>
@@ -144,7 +144,8 @@ export default {
             })
         },
         deleteAccessTo(file_id, user_id){
-            API.post("/removeUserAccess", file_id, user_id).then((res)=>{
+            const access = {"file_id": file_id, "user_id": user_id}
+            API.post("/removeUserAccess", access).then((res)=>{
 
             }).catch((err) => {
                 console.log(err)

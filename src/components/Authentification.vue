@@ -59,13 +59,20 @@
       </div>
   </div>
 </template>
+
+<script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js">
+</script>
+
 <script>
 import API from '../api'
 import Navbar from './Navbar.vue'
+import emailjs from "emailjs-com"
 
 export default {
   components: {
-      Navbar
+      Navbar,
+      emailjs
   },
   data () {
     return {
@@ -79,6 +86,10 @@ export default {
         username:'',
         email:'',
         password:''
+      },
+      templateParams: {
+        username : '',
+        email: ''
       },
       isSignUpMode : false,
       isConnected : false
@@ -105,6 +116,9 @@ export default {
         API.post('/register', this.newUser).then((res) => {
           if(res.data) {
             alert( "Votre compte a été créé! Connectez-vous !")
+            this.templateParams.username = this.newUser.username
+            this.templateParams.email = this.newUser.email
+            emailjs.send("gmail", "template_kwrmgbj", this.templateParams, "Y2yR2knf95CfN8pCb")
             this.newUser.username = ''
             this.newUser.email = ''
             this.newUser.password = ''
