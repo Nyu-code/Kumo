@@ -24,9 +24,10 @@
                     </div>
                 </div>
                 <div class="historical-container">
-                    <v-card id="table">
+                    <v-card id="table"
+                    min-width="1000px">
                         <v-tabs v-model="tab" background-color="primary" dark>
-                            <v-tab v-for="file in files" class="historical-header">
+                            <v-tab v-for="file in files" class="historical-header" :key="file.file_id">
                                 {{ file.filename }}
                             </v-tab>
                         </v-tabs>
