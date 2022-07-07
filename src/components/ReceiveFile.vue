@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="connected" v-if="isConnected">
+    <div class="connected">
       <navbar></navbar>
       <table class="Files">
         <tr class="Files-header">
@@ -48,30 +48,20 @@
           </v-card>
         </v-dialog>
       </table>
-      <div class="files-buttons">
-        <button class="button" v-on:click="deleteAll()">Tout supprimer</button>
-      </div>
-    </div>
-    <div class="notconnected" v-if="!isConnected">
-      <unconnected-page></unconnected-page>
     </div>
   </div>
 </template>
 
 <script>
-import api from '../api'
 import API from '../api'
 import Navbar from './/Navbar.vue'
-import UnconnectedPage from './UnconnectedPage.vue'
 
 export default {
   components: {
-    Navbar,
-    UnconnectedPage
+    Navbar
   },
   data() {
     return {
-      isConnected: false,
       files: [],
       dialog: false,
       password: "",
@@ -80,26 +70,10 @@ export default {
     }
   },
   methods: {
-    verifSession() {
-      if (this.$session) {
-        if (this.$session.exists()) {
-          this.isConnected = true
-          return
-        }
-      }
-      this.isConnected = false
-    },
     getUserFile() {
       console.log(API.defaults)
       API.get('/receivedFiles').then((res) => {
         this.files = res.data
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-    deleteFile(file_id) {
-      API.post('/deleteFile', file_id).then((res) => {
-        return
       }).catch((err) => {
         console.log(err)
       })
@@ -123,9 +97,6 @@ export default {
       this.selectedFile_id = file_id
       this.selectedFilename = filename
     }
-  },
-  beforeMount() {
-    this.verifSession();
   },
   created() {
     this.getUserFile();
@@ -175,10 +146,6 @@ tbody tr {
 
 #delete-file {
   padding: 10px;
-}
-
-.files-buttons {
-  display: flex;
 }
 
 .button {

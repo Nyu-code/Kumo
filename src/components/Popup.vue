@@ -1,22 +1,22 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" max-width="290">
+    <v-dialog v-model="dialog" max-width="320">
       <template v-slot:activator="{ on, attrs }">
         <button class="delete-button" v-bind="attrs" v-on="on">
-          Delete
+          Supprimer le fichier
         </button>
       </template>
       <v-card>
         <v-card-title class="text-h5">
-          Do you really want to delete this file ?
+          Voulez-vous vraiment supprimer ce fichier ?
         </v-card-title>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false">
-            No Stop
+            Non
           </v-btn>
           <v-btn color="green darken-1" text @click="dialog = false & deleteFile(file_id)">
-            Yes Delete
+            Oui
           </v-btn>
         </v-card-actions>
       </v-card>

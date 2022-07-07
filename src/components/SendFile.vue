@@ -17,7 +17,7 @@
                         </div>
                         <h2>Laissez un commentaire</h2>
                         <v-text-field class="comment-field" label="Commentaire" solo v-model="comment"></v-text-field>
-                        <button type="submit" class="button btn submit" value="envoyer">Submit</button>
+                        <button type="submit" class="button btn submit" value="envoyer">Upload</button>
                     </form>
                     <div class="messageupload" v-if="upload !== null">
                         <p v-if="upload">Vous avez bien upload votre fichier !</p>
@@ -61,14 +61,12 @@
 import API from '../api'
 import Multiselect from 'vue-multiselect'
 import Navbar from './Navbar.vue'
-import UnconnectedPage from './UnconnectedPage.vue'
 import Popup from './Popup.vue'
 
 export default {
     components: {
         Multiselect,
         Navbar,
-        UnconnectedPage,
         Popup
     },
     data() {

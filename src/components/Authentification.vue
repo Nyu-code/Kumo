@@ -91,8 +91,7 @@ export default {
         username : '',
         email: ''
       },
-      isSignUpMode : false,
-      isConnected : false
+      isSignUpMode : false
     }
   },
   methods: {
@@ -134,20 +133,7 @@ export default {
     },
     signUpMode(){
       this.isSignUpMode = !this.isSignUpMode;
-    },
-    verifSession(){
-        if(this.$session){
-            if(this.$session.exists()){
-            this.isConnected = true
-            this.user.username = this.$session.get('username')
-            return
-            }
-        }
-        this.isConnected = false
     }
-  },
-  beforeMount() {
-    this.verifSession();
   }
 }
 </script>
