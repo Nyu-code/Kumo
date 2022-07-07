@@ -32,34 +32,32 @@ export default {
       this.$session.set('user_id', user.id)
       this.$cookies.set('token', user.token)
       API.defaults.headers.common['Authorization'] = `Bearer ${user.token}`
+      this.loading = false
     },
     logout() {
       console.log("Loging out the user")
       this.$session.destroy()
       this.$cookies.remove('token')
       API.defaults.headers.common['Authorization'] = ''
+      this.loading = false
     }
   },
   beforeMount() {
-    this.loading = true
     const token = this.$cookies.get('token')
-    if (!token && this.$router.currentRoute.name !== 'auth') {
-      console.log("coucou")
+    if (!token) {
+      if (this.$router.currentRoute.name !== 'auth')
+        this.$router.push({ name: 'auth', query: { redirect: this.$router.currentRoute.path } })
       this.loading = false
-      this.$router.push({ name: 'auth', query: { redirect: this.$router.currentRoute.path } })
     }
-    else if (this.$router.currentRoute.name !== 'auth') {
-      console.log("hello")
+    else {
       API.post('/verifyToken', { token: token })
       .then((res) => {
         this.login(res.data)
-        this.loading = false
         if (this.$router.currentRoute.name === 'auth')
           this.$router.push({ name: 'home'})
       }).catch((err) => {
         console.log(err)
         this.logout()
-        this.loading = false
         this.$router.push({ name: 'auth', query: { redirect: this.$router.currentRoute.path } })
       })
     }
