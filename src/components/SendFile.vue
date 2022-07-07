@@ -4,7 +4,7 @@
             <Navbar />
             <div class="grid">
                 <div class="form">
-                    <form @submit.prevent="submit_form" class="container">
+                    <form @submit.prevent="submit_form">
                         <h2> Déposez vos fichiers appuyant dans la zone ci-dessous</h2>
                         <div class="file-input">
                             <v-file-input counter show-size aria-required="true" truncate-length="20" v-model="file" />
@@ -15,18 +15,20 @@
                                 placeholder="Selectionner un ou plusieurs utilisateur" label="name" track-by="name"
                                 aria-required="true" :options="options" :multiple="true" :taggable="true" />
                         </div>
+                        <h2>Laissez un commentaire</h2>
+                        <v-text-field class="comment-field" label="Commentaire" solo v-model="comment"></v-text-field>
                         <button type="submit" class="button btn submit" value="envoyer">Submit</button>
                     </form>
-                    <div class="messageupload">
+                    <div class="messageupload" v-if="upload !== null">
                         <p v-if="upload">Vous avez bien upload votre fichier !</p>
                         <p v-if="upload == false">Il y a eu un problème lors de l'upload. Votre fichier n'a pas pu être
                             upload</p>
                     </div>
                 </div>
-                <div class="historical-container">
-                    <v-card id="table">
+                <div class="historical-container" v-if="files.length > 0">
+                    <v-card id="table" min-width="1000px">
                         <v-tabs v-model="tab" background-color="primary" dark>
-                            <v-tab v-for="file in files" class="historical-header">
+                            <v-tab v-for="file in files" class="historical-header" :key="file.file_id">
                                 {{ file.filename }}
                             </v-tab>
                         </v-tabs>
@@ -77,6 +79,7 @@ export default {
             files: [],
             upload: null,
             tab: null,
+            comment: ""
         }
     },
     methods: {
@@ -97,9 +100,9 @@ export default {
         submit_form() {
             const users_id = this.value.map((val) => val.code)
             const form_data = new FormData()
-            console.log(users_id)
             form_data.append('file', this.file)
             form_data.append('users', JSON.stringify(users_id))
+            form_data.append('comment', this.comment)
             API.post('/sendFile', form_data)
                 .then((res) => {
                     console.log(res)
@@ -140,7 +143,6 @@ export default {
 </style>
 
 <style scoped>
-form,
 .historical-container,
 .tx-buttons,
 .grid {
@@ -153,10 +155,24 @@ form,
 .form {
     border-radius: 25px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: 10px;
+}
+
+.form form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.comment-field {
+    width: 70%;
+    margin-top: 20px !important;
 }
 
 h2 {
-    margin-top: 3rem;
+    margin-top: 20px;
 }
 
 .container {
