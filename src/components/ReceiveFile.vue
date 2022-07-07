@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import api from '../api'
 import API from '../api'
 import Navbar from './/Navbar.vue'
 import UnconnectedPage from './UnconnectedPage.vue'
@@ -105,16 +106,13 @@ export default {
     },
     downloadFile(file_id, filename, password) {
       API.post('/download/' + file_id, {
-        responseType: 'blob',
         password: password
       }).then((res) => {
-        console.log(res)
-        const url = window.URL.createObjectURL(new Blob([res.data]))
         const link = document.createElement('a')
-        link.href = url
+        link.href = API.defaults.baseURL + "/downloadFile/" + res.data.message
+        link.target = "_blank"
         link.setAttribute('download', filename)
-        document.body.appendChild(link)
-        link.click()
+        link.click();
       }).catch((err) => {
         console.log(err)
       })
