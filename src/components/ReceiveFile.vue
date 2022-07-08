@@ -16,7 +16,7 @@
             {{ file.filename }}
           </td>
           <td>{{ file.email }}</td>
-          <td>{{ file.send_at }}</td>
+          <td>{{ new Date(file.send_at).toLocaleString() }}</td>
           <td>{{ file.comment }}</td>
         </tr>
         <v-dialog persistent v-model="dialog" max-width="500px">
